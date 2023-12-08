@@ -1,8 +1,12 @@
 # amqpbug
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## Reproducing the bug
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+1. In the **AmqpClientConfig** file - change the host name, port, username and password values to those of your broker.
+2. In **application properties** - change the targetted incoming address and queue.
+3. Ensure your queue has more than **1k** messages.
+4. Run the project in dev mode!
+
 
 ## Running the application in dev mode
 
