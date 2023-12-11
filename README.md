@@ -1,11 +1,22 @@
 # amqpbug
 
+## Issue
+
+This issue is about **consuming** messages from an AMQP queue. When there are **over 1000 messages** waiting to be consumed from an AMQ queue, quarkus is only getting the first 1000 messages and stopping there. In order to reproduce this, it is important to pre-load your AMQP queue with more than 1000 messages. 
+
+When executing the same functionality in a .Net application, we are seeing the same issue. However, in .Net we are able to set the **Distrubition mode** attribute to **'copy'** when configuring the source AMQP address which then retrieves all deals from the queue, not just the first 1000.
+
+Here is the AMQP source configuration code from our .Net application with the 'Distribution mode' attribute:
+![image](https://github.com/ArvinUbhi/amqpbug/assets/117295982/bc67bae3-3814-4466-b599-d9be9fea5420)
+
+
 ## Reproducing the bug
 
-1. In the **AmqpClientConfig** file - change the host name, port, username and password values to those of your broker.
-2. In **application properties** - change the targetted incoming address and queue.
-3. Ensure your queue has more than **1k** messages.
-4. Run the project in dev mode!
+1. Create an AMQP broker and set up a durable queue. Load this queue with over **1k** messages.
+2. In the **AmqpClientConfig** file - change the host name, port, username and password values to those of your broker.
+3. In **application properties** - change the targeted incoming address and queue to your new queue.
+5. Run the project in dev mode!
+6. Your application should begin to consume messages from this queue and print the number of messages recieved in the console. This number should stop at 1000.
 
 
 ## Running the application in dev mode
