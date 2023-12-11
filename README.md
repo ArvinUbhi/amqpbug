@@ -2,7 +2,9 @@
 
 ## Issue
 
-This issue is about **consuming** messages from an AMQP queue. When there are **over 1000 messages** waiting to be consumed from an AMQ queue, quarkus is only getting the first 1000 messages and stopping there. In order to reproduce this, it is important to pre-load your AMQP queue with more than 1000 messages. 
+This issue is about **consuming** messages from an **Non-Destrucive** AMQP queue. I have a non-destructive durable queue in an AMQP Artemis broker and when there are **over 1000 messages** waiting to be consumed from it, the Quarkus app is only getting the first 1000 messages and stopping there. In order to reproduce this, it is important to pre-load your Non Destructive AMQP queue with more than 1000 messages. 
+
+**I retried this with a queue that is NOT non-destructive and I am able to get all of the messages.**
 
 When executing the same functionality in a .Net application, we are seeing the same issue. However, in .Net we are able to set the **Distrubition mode** attribute to **'copy'** when configuring the source AMQP address which then retrieves all deals from the queue, not just the first 1000.
 
@@ -12,7 +14,7 @@ Here is the AMQP source configuration code from our .Net application with the 'D
 
 ## Reproducing the bug
 
-1. Create an AMQP Artemis broker and set up a durable queue. Load this queue with over **1k** messages. You could push a string message of "Hello" to the queue 3k times, for example. 
+1. Create an AMQP Artemis broker and set up a **durable non-destructive** queue. Load this queue with over **1k** messages. You could push a string message of "Hello" to the queue 3k times, for example. 
 2. In the **AmqpClientConfig** file - change the host name, port, username and password values to those of your broker.
 3. In **application properties** - change the targeted incoming address and queue to your new queue.
 5. Run the project in dev mode!
