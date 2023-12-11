@@ -12,7 +12,7 @@ Here is the AMQP source configuration code from our .Net application with the 'D
 
 ## Reproducing the bug
 
-1. Create an AMQP broker and set up a durable queue. Load this queue with over **1k** messages.
+1. Create an AMQP broker and set up a durable queue. Load this queue with over **1k** messages. You could push a string message of "Hello" to the queue 3k times, for example. 
 2. In the **AmqpClientConfig** file - change the host name, port, username and password values to those of your broker.
 3. In **application properties** - change the targeted incoming address and queue to your new queue.
 5. Run the project in dev mode!
